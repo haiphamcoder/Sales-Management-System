@@ -1,6 +1,12 @@
 package View;
 
+import Model.Database;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.extras.FlatSVGUtils;
+
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,33 +16,34 @@ import java.util.Objects;
 
 public class MainUI extends JFrame {
     // attributes
-
+    private final Database database;
     // components
     private JLabel lblBtnLogout;
     private CustomJLabel lblTrangChu, lblNhanVien, lblSanPham, lblKhachHang, lblNhaCungCap;
     private JMenuItem menuItemGithub, menuItemInformation, menuItemExit;
     private JPanel pnCenter;
 
-    public static JFrame frame;
+    private ButtonTool lblBtnHome, lblBtnProduct, lblBtnEmployee, lblBtnSupplier, lblBtnCustomer;
+
+    public static Frame frame;
 
     // constructor
-    public MainUI(String title) {
+    public MainUI(String title, Database database) {
         super(title);
-        frame = this;
+        MainUI.frame = this;
+        this.database = database;
         initComponents();
         addEvents();
         showWindow();
     }
 
     private void initComponents() {
-        // implementation the menubar
-        JMenuBar menuBar = new JMenuBar();
-
+        // ==================== Menu bar ====================
         JMenu menuFile = new JMenu("File");
         menuFile.setMnemonic('F');
         menuItemExit = new JMenuItem("Exit");
-        menuItemExit.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/ic_close_24px.png"))));
+        menuItemExit.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/24x24/ic_close_24px.svg"))));
         menuItemExit.setAccelerator(KeyStroke.getKeyStroke('Q',
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuFile.add(menuItemExit);
@@ -44,30 +51,33 @@ public class MainUI extends JFrame {
         JMenu menuHelp = new JMenu("Help");
         menuHelp.setMnemonic('H');
         menuItemInformation = new JMenuItem("Information");
-        menuItemInformation.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/Images/info_24px.png"))));
+        menuItemInformation.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
+                "/24x24/info_24px.svg"))));
         menuItemInformation.setAccelerator(KeyStroke.getKeyStroke('I',
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItemGithub = new JMenuItem("Github");
-        menuItemGithub.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/github_24px.png"))));
+        menuItemGithub.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource("/Images" +
+                "/24x24/github_24px.svg"))));
         menuItemGithub.setAccelerator(KeyStroke.getKeyStroke('G',
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuHelp.add(menuItemGithub);
         menuHelp.add(menuItemInformation);
 
+        JMenuBar menuBar = new JMenuBar();
         menuBar.add(menuFile);
         menuBar.add(menuHelp);
         this.setJMenuBar(menuBar);
 
-        // implementation the left panel
+        // ==================== Left Panel ====================
         JPanel pnLeft = new JPanel();
         pnLeft.setLayout(new BorderLayout());
         pnLeft.setBackground(Color.WHITE);
         pnLeft.setPreferredSize(new Dimension(200, 0));
 
         JLabel lblImage = new JLabel();
-        lblImage.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/sales-manager.png"))));
+        lblImage.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/sales_manager.svg"))));
+        lblImage.setHorizontalAlignment(JLabel.CENTER);
         lblImage.setBorder(BorderFactory.createLineBorder(new Color(75, 102, 147), 2));
         JPanel pnLblImage = new JPanel();
         pnLblImage.setBackground(new Color(244, 247, 254));
@@ -75,8 +85,8 @@ public class MainUI extends JFrame {
         pnLblImage.add(lblImage, BorderLayout.CENTER);
 
         lblTrangChu = new CustomJLabel("Trang chủ");
-        lblTrangChu.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/home_32px.png"))));
+        lblTrangChu.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/48x48/home_48px.svg"))));
         lblTrangChu.setBackground(new Color(78, 138, 201));
         lblTrangChu.setForeground(Color.WHITE);
         lblTrangChu.setSelected(true);
@@ -85,29 +95,29 @@ public class MainUI extends JFrame {
         pnLblTrangChu.add(lblTrangChu, BorderLayout.CENTER);
 
         lblSanPham = new CustomJLabel("Sản phẩm");
-        lblSanPham.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/product_32px.png"))));
+        lblSanPham.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/48x48/product_48px.svg"))));
         JPanel pnLblSanPham = new JPanel();
         pnLblSanPham.setLayout(new BorderLayout());
         pnLblSanPham.add(lblSanPham, BorderLayout.CENTER);
 
         lblNhanVien = new CustomJLabel("Nhân viên");
-        lblNhanVien.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/employee_32px.png"))));
+        lblNhanVien.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/48x48/employee_48px.svg"))));
         JPanel pnLblNhanVien = new JPanel();
         pnLblNhanVien.setLayout(new BorderLayout());
         pnLblNhanVien.add(lblNhanVien, BorderLayout.CENTER);
 
         lblKhachHang = new CustomJLabel("Khách hàng");
-        lblKhachHang.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/customer_32px.png"))));
+        lblKhachHang.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/48x48/customer_48px.svg"))));
         JPanel pnLblKhachHang = new JPanel();
         pnLblKhachHang.setLayout(new BorderLayout());
         pnLblKhachHang.add(lblKhachHang, BorderLayout.CENTER);
 
         lblNhaCungCap = new CustomJLabel("Nhà cung cấp");
-        lblNhaCungCap.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/supplier_32px.png"))));
+        lblNhaCungCap.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/48x48/supplier_48px.svg"))));
         JPanel pnLblNhaCungCap = new JPanel();
         pnLblNhaCungCap.setLayout(new BorderLayout());
         pnLblNhaCungCap.add(lblNhaCungCap, BorderLayout.CENTER);
@@ -125,28 +135,45 @@ public class MainUI extends JFrame {
         pnLeft.add(pnLblImage, BorderLayout.NORTH);
         pnLeft.add(pnOption, BorderLayout.CENTER);
 
-        // implementation the top panel
-        JPanel pnTop = new JPanel();
-        pnTop.setLayout(new BoxLayout(pnTop, BoxLayout.X_AXIS));
-        pnTop.setBackground(Color.WHITE);
-        pnTop.setPreferredSize(new Dimension(0, 30));
-
-        JPanel pnTitle = new JPanel();
-        pnTitle.setBackground(Color.WHITE);
-        pnTitle.setPreferredSize(new Dimension(200, 0));
-
+        // ==================== Tool Panel ====================
         lblBtnLogout = new JLabel("Đăng xuất");
+        lblBtnLogout.setForeground(Color.WHITE);
         lblBtnLogout.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-        lblBtnLogout.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/Logout_32px.png"))));
-        lblBtnLogout.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        lblBtnLogout.setBackground(new Color(151, 195, 243));
+        lblBtnLogout.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/32x32/logout_32px.svg"))));
+        lblBtnLogout.setBackground(new Color(78, 138, 201));
+        lblBtnLogout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                BorderFactory.createEmptyBorder(1, 2, 1, 10)));
         lblBtnLogout.setOpaque(true);
+        JPanel pnBtnLogout = new JPanel();
+        pnBtnLogout.setLayout(new BorderLayout());
+        pnBtnLogout.add(lblBtnLogout, BorderLayout.CENTER);
+        pnBtnLogout.setBorder(BorderFactory.createEmptyBorder(4, 5, 4, 3));
+        pnBtnLogout.setBackground(Color.WHITE);
 
-        pnTop.add(Box.createHorizontalGlue());
-        pnTop.add(lblBtnLogout);
+        lblBtnHome = new ButtonTool("/Images/32x32/home_32px.svg");
+        lblBtnSupplier = new ButtonTool("/Images/32x32/supplier_32px.svg");
+        lblBtnEmployee = new ButtonTool("/Images/32x32/employee_32px.svg");
+        lblBtnCustomer = new ButtonTool("/Images/32x32/customer_32px.svg");
+        lblBtnProduct = new ButtonTool("/Images/32x32/product_32px.svg");
 
-        // implementation the center panel
+        JPanel pnTool = new JPanel();
+        pnTool.setLayout(new FlowLayout(FlowLayout.LEFT));
+        pnTool.setBackground(Color.WHITE);
+        pnTool.add(lblBtnHome);
+        pnTool.add(lblBtnSupplier);
+        pnTool.add(lblBtnEmployee);
+        pnTool.add(lblBtnCustomer);
+        pnTool.add(lblBtnProduct);
+
+        JPanel pnTop = new JPanel();
+        pnTop.setLayout(new BorderLayout());
+        pnTop.setBackground(Color.WHITE);
+        pnTop.setPreferredSize(new Dimension(0, 48));
+        pnTop.add(pnBtnLogout, BorderLayout.EAST);
+        pnTop.add(pnTool, BorderLayout.CENTER);
+
+        // ==================== Center Panel ====================
         pnCenter = new JPanel();
         pnCenter.setLayout(new BorderLayout());
         pnCenter.setBackground(new Color(245, 245, 251));
@@ -154,17 +181,21 @@ public class MainUI extends JFrame {
                 5, 0, 0), BorderFactory.createLineBorder(new Color(78, 138, 201), 4)));
         pnCenter.add(new HomePanel(), BorderLayout.CENTER);
 
-        // implementation the main panel
+        // ==================== Status bar ====================
+        JPanel pnStatusBar = new JPanel();
+        pnStatusBar.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+
+
+        // ==================== Add Main Panel to Content panel ====================
+        Container con = this.getContentPane();
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
-        pnMain.add(pnLeft, BorderLayout.WEST);
         pnMain.add(pnTop, BorderLayout.NORTH);
-        pnMain.add(pnCenter, BorderLayout.CENTER);
-
-        // Add main panel to the content pane
-        Container con = this.getContentPane();
-        con.setLayout(new BorderLayout());
-        con.add(pnMain, BorderLayout.CENTER);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnLeft, pnCenter);
+        splitPane.setOneTouchExpandable(true);
+        pnMain.add(splitPane, BorderLayout.CENTER);
+        pnMain.add(pnStatusBar, BorderLayout.SOUTH);
+        con.add(pnMain);
     }
 
     private void addEvents() {
@@ -178,88 +209,90 @@ public class MainUI extends JFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 lblBtnLogout.setBackground(Color.YELLOW);
+                lblBtnLogout.setForeground(Color.BLACK);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lblBtnLogout.setBackground(new Color(151, 195, 243));
+                lblBtnLogout.setBackground(new Color(78, 138, 201));
+                lblBtnLogout.setForeground(Color.WHITE);
             }
         });
 
         lblTrangChu.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(true);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new HomePanel(), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectHomePage();
+            }
+        });
+
+        lblBtnHome.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectHomePage();
             }
         });
 
         lblNhanVien.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(true);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new EmployeePanel(), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectEmployee();
+            }
+        });
+
+        lblBtnEmployee.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectEmployee();
             }
         });
 
         lblSanPham.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(true);
-                pnCenter.removeAll();
-                pnCenter.add(new ProductPanel(), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectProduct();
+            }
+        });
+
+        lblBtnProduct.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectProduct();
             }
         });
 
         lblKhachHang.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(false);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(true);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new CustomerPanel(), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectCustomer();
+            }
+        });
+
+        lblBtnCustomer.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectCustomer();
             }
         });
 
         lblNhaCungCap.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                lblTrangChu.setSelected(false);
-                lblNhaCungCap.setSelected(true);
-                lblNhanVien.setSelected(false);
-                lblKhachHang.setSelected(false);
-                lblSanPham.setSelected(false);
-                pnCenter.removeAll();
-                pnCenter.add(new SupplierPanel(), BorderLayout.CENTER);
-                pnCenter.updateUI();
+            public void mousePressed(MouseEvent e) {
+                selectSupplier();
+            }
+        });
+
+        lblBtnSupplier.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectSupplier();
             }
         });
 
         menuItemGithub.addActionListener(e -> {
             try {
                 Desktop.getDesktop().browse(URI.create(
-                        "https://github.com/ngochai285bkit/Sales-Management-System"));
+                        "https://github.com/haiphamcoder/Sales-Management-System"));
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -267,67 +300,76 @@ public class MainUI extends JFrame {
 
         menuItemExit.addActionListener(e -> System.exit(0));
 
-        menuItemInformation.addActionListener(e -> new InformationDialog(this, "Information"));
+        menuItemInformation.addActionListener(e -> new InformationDialog(MainUI.this));
+    }
 
+    private void selectHomePage() {
+        lblTrangChu.setSelected(true);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new HomePanel(), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectEmployee() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(true);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new EmployeePanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectProduct() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(true);
+        pnCenter.removeAll();
+        pnCenter.add(new ProductPanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectCustomer() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(false);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(true);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new CustomerPanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
+    }
+
+    private void selectSupplier() {
+        lblTrangChu.setSelected(false);
+        lblNhaCungCap.setSelected(true);
+        lblNhanVien.setSelected(false);
+        lblKhachHang.setSelected(false);
+        lblSanPham.setSelected(false);
+        pnCenter.removeAll();
+        pnCenter.add(new SupplierPanel(database), BorderLayout.CENTER);
+        pnCenter.updateUI();
     }
 
     private void showWindow() {
         this.setSize(900, 650);
-        this.setIconImage(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/icon.png"))).getImage());
+        this.setIconImages(FlatSVGUtils.createWindowIconImages(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/icon.svg"))));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
-    private static class CustomJLabel extends JLabel {
-        public CustomJLabel(String text) {
-            super(text);
-            this.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
-            this.setHorizontalAlignment(JLabel.CENTER);
-            this.setBorder(BorderFactory.createLineBorder(new Color(75, 102, 147), 2));
-            this.setBackground(Color.WHITE);
-            this.setForeground(Color.BLACK);
-            this.setOpaque(true);
-            this.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    CustomJLabel.this.setBackground(new Color(78, 138, 201));
-                    CustomJLabel.this.setForeground(Color.BLACK);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    CustomJLabel.this.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    CustomJLabel.this.setBorder(BorderFactory.createLineBorder(new Color(75, 102,
-                            147), 2));
-                }
-            });
-        }
-
-        public void setSelected(boolean selected) {
-            if (selected) {
-                this.setBackground(new Color(78, 138, 201));
-                this.setForeground(Color.WHITE);
-            } else {
-                this.setBackground(Color.WHITE);
-                this.setForeground(Color.BLACK);
-            }
-        }
-    }
-
     public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException |
-                 IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        SwingUtilities.invokeLater(() -> new MainUI("Hệ thống Quản lý bán hàng"));
+        FlatIntelliJLaf.setup();
+        SwingUtilities.invokeLater(() -> new MainUI("Quản lý bán hàng", new Database()));
     }
 }

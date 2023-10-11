@@ -1,5 +1,9 @@
 package View;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.extras.FlatSVGUtils;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -10,27 +14,26 @@ import java.util.Objects;
 public class InformationDialog extends JDialog {
     // attributes
 
-    // components
-
-    // constructor
-    public InformationDialog(Frame parent, String title) {
-        super(parent, title, true);
+    // contructor
+    public InformationDialog(Window owner) {
+        super(owner);
+        this.setModal(true);
         initComponents();
-        showDialog(parent);
+        showDialog(owner);
     }
 
     private void initComponents() {
-        // implementation the top panel
+        // ==================== Top Panel ====================
         JPanel pnTop = new JPanel();
         pnTop.setLayout(new BorderLayout());
         pnTop.setBackground(new Color(245, 245, 251));
         JLabel lblImage = new JLabel();
-        lblImage.setIcon(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/logo-soict-hust.png"))));
+        lblImage.setIcon(new FlatSVGIcon(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/logo_soict_hust.svg"))));
         lblImage.setHorizontalAlignment(JLabel.CENTER);
         pnTop.add(lblImage, BorderLayout.CENTER);
 
-        // implementation the center panel
+        // ==================== Center Panel ====================
         JPanel pnCenter = new JPanel();
         pnCenter.setLayout(new BorderLayout());
         pnCenter.setBackground(new Color(245, 245, 251));
@@ -63,7 +66,6 @@ public class InformationDialog extends JDialog {
 
         JPanel pnGridInfo = new JPanel();
         pnGridInfo.setLayout(new GridLayout(4, 2, 20, 5));
-
         pnGridInfo.setBackground(new Color(245, 245, 251));
         pnGridInfo.setBorder(BorderFactory.createEmptyBorder(5, 100, 5, 100));
 
@@ -133,16 +135,18 @@ public class InformationDialog extends JDialog {
         pnInforProject.add(Box.createVerticalGlue());
 
         JTable tblDsThanhVien = new JTable();
-        tblDsThanhVien.setBackground(new Color(245,245,251));
+        tblDsThanhVien.setBackground(new Color(245, 245, 251));
         tblDsThanhVien.setForeground(Color.BLACK);
         tblDsThanhVien.setDefaultEditor(Object.class, null);
         tblDsThanhVien.setRowHeight(30);
         tblDsThanhVien.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
         tblDsThanhVien.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        tblDsThanhVien.setShowHorizontalLines(true);
+        tblDsThanhVien.setShowVerticalLines(true);
 
         JTableHeader tableHeader = tblDsThanhVien.getTableHeader();
         tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
-        tableHeader.setBackground(new Color(78,138,201));
+        tableHeader.setBackground(new Color(78, 138, 201));
         tableHeader.setForeground(Color.WHITE);
         tableHeader.setOpaque(false);
         tableHeader.setReorderingAllowed(false);
@@ -169,7 +173,7 @@ public class InformationDialog extends JDialog {
         JScrollPane scrDsThanhVien = new JScrollPane(tblDsThanhVien, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrDsThanhVien.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
-        scrDsThanhVien.setBackground(new Color(245,245,251));
+        scrDsThanhVien.setBackground(new Color(245, 245, 251));
 
         pnCenter.add(pnInforProject, BorderLayout.NORTH);
         pnCenter.add(scrDsThanhVien, BorderLayout.CENTER);
@@ -177,6 +181,7 @@ public class InformationDialog extends JDialog {
         // implementation the main panel
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
+        pnMain.setBackground(Color.LIGHT_GRAY);
         pnMain.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         pnMain.setBackground(new Color(245, 245, 251));
         pnMain.add(pnTop, BorderLayout.NORTH);
@@ -184,17 +189,22 @@ public class InformationDialog extends JDialog {
 
         // add pnMain to the content pane
         Container con = this.getContentPane();
-        con.setLayout(new BorderLayout());
         con.add(pnMain, BorderLayout.CENTER);
     }
 
-    private void showDialog(Frame parent) {
-        this.setIconImage(new ImageIcon(Objects.requireNonNull(this.getClass().getResource(
-                "/Images/icon.png"))).getImage());
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        this.setSize(800, 550);
-        this.setLocationRelativeTo(parent);
+    private void showDialog(Window owner) {
+        this.setTitle("Thông tin");
+        this.setIconImages(FlatSVGUtils.createWindowIconImages(Objects.requireNonNull(this.getClass().getResource(
+                "/Images/icon.svg"))));
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setSize(850, 550);
+        this.setLocationRelativeTo(owner);
         this.setResizable(false);
         this.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        FlatIntelliJLaf.setup();
+        SwingUtilities.invokeLater(() -> new InformationDialog(null));
     }
 }
